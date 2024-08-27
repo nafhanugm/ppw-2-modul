@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,3 +24,5 @@ Route::get('/about', function () {
         'email' => 'elgasing@gmail.com'
     ]);
 });
+
+Route::get('/posts', [PostController::class, 'index']);
