@@ -1,7 +1,15 @@
 @extends('buku.layout.layout')
+@php
+    use Illuminate\Support\Facades\Session;
+@endphp
 
 @section('content')
 <body>
+    @if(Session::has('success'))
+        <div class="alert alert-success">
+            {{Session::get('success') }}
+        </div>
+    @endif
     <a href="{{ route('buku.create') }}" class="btn btn-primary float-end">Tambah Buku</a>
     <table class="table table-stripped">
         <thead>
@@ -33,4 +41,6 @@
             @endforeach
         </tbody>
     </table>
+    <div>{{$data_buku->links()}}</div>
+    <div>Jumlah Buku : {{$jumlah_buku}}</div>
 @endsection

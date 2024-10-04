@@ -9,9 +9,12 @@ use App\Models\Buku;
 class BukuController extends Controller
 {
     public function index (){
-        $data_buku = Buku::all();
+        $batas = 10;
+        $jumlah_buku = Buku::count();
+        $data_buku = Buku::orderBy('id', 'desc')->simplePaginate($batas);
+        $no = $batas * ($data_buku->currentPage() - 1);
 
-        return view('buku.index', compact('data_buku'));
+        return view('buku.index', compact('data_buku', 'no', 'jumlah_buku'));
     }
 
     public function create(){
@@ -19,6 +22,13 @@ class BukuController extends Controller
     }
 
     public function store(Request $request){
+        $this->validate($request, [
+            'judul' => 'required|string',
+            'penulis' => 'required|string|max:30',
+            'harga' => 'required|numeric',
+            'tgl_terbit' => 'required|date'
+        ]);
+
         $buku = new Buku();
         $buku->judul = $request->judul;
         $buku->penulis = $request->penulis;
@@ -26,7 +36,7 @@ class BukuController extends Controller
         $buku->tgl_terbit = $request->tgl_terbit;
         $buku->save();
 
-        return redirect('/buku');
+        return redirect('/buku')->with('success', 'Data buku berhasil ditambahkan');
     }
 
     public function destroy($id){
