@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\BukuController;
-use App\Http\Controllers\PostController;
+use App\Http\Controllers\PortfolioController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,16 +19,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/about', function () {
-    return view('about', [
-        'name' => 'Antony Santos',
-        'email' => 'elgasing@gmail.com'
-    ]);
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/about', [PortfolioController::class, 'about'])->name('about');
+    Route::get('/project', [PortfolioController::class, 'project'])->name('project');
+    Route::get('/certificate', [PortfolioController::class, 'certificate'])->name('certificate');
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/posts', [PostController::class, 'index']);
-
-Route::get('/buku', [BukuController::class, 'index']);
-Route::get('/buku/create', [BukuController::class, 'create'])->name('buku.create');
-Route::post('/buku', [BukuController::class, 'store'])->name('buku.store');
-Route::delete('/buku/{id}', [BukuController::class, 'destroy'])->name('buku.destroy');
+require __DIR__.'/auth.php';
