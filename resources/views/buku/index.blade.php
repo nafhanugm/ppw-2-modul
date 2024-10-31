@@ -10,6 +10,14 @@
             {{Session::get('success') }}
         </div>
     @endif
+    @if(\Illuminate\Support\Facades\Auth::user())
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button type="submit" class="py-2 px-4  border-2 bg-teal-500 hover:bg-teal-400 active:bg-teal-600 rounded-lg text-white cursor-pointer font-semibold">
+                Logout
+            </button>
+        </form>
+    @endif
     <a href="{{ route('buku.create') }}" class="btn btn-primary float-end">Tambah Buku</a>
     <table class="table table-stripped">
         <thead>
