@@ -38,24 +38,18 @@
                         <p class="text-2xl mt-3">Software Engineer turned Entrepreneur. I love building things and helping people. Very unactive on Twitter.</p>
                     </div>
                     <div class="p-3 rounded-full aspect-square bg-black w-44 h-44">
-                        <img src="/images/avatar.png" class="rounded-full w-full h-full object-contain" alt="Avatar">
+                        <img src="/images/avatar.jpg" class="rounded-full w-full h-full object-contain" alt="Avatar">
                     </div>
                 </div>
                 <div class="mt-5 flex w-full gap-2">
-                    <a href="/" class="py-2 px-4  border-2 bg-teal-500 hover:bg-teal-400 active:bg-teal-600 rounded-full text-white cursor-pointer">
-                        Home
+                    <a href="/bukuReview" class="py-2 px-4  border-2 bg-teal-500 hover:bg-teal-400 active:bg-teal-600 rounded-full text-white cursor-pointer">
+                        Buku Berdasarkan Review
                     </a>
-                    <a href="/about" class="py-2 px-4  border-2 bg-teal-500 hover:bg-teal-400 active:bg-teal-600 rounded-full text-white cursor-pointer">
-                        About
-                    </a>
-                    <a href="/project" class="py-2 px-4  border-2 bg-teal-500 hover:bg-teal-400 active:bg-teal-600 rounded-full text-white cursor-pointer">
-                        Projects
-                    </a>
-                    <a href="/certificate" class="py-2 px-4  border-2 bg-teal-500 hover:bg-teal-400 active:bg-teal-600 rounded-full text-white cursor-pointer">
-                        Certificates
+                    <a href="/bukuTag" class="py-2 px-4  border-2 bg-teal-500 hover:bg-teal-400 active:bg-teal-600 rounded-full text-white cursor-pointer">
+                        Buku Berdasarkan Tag
                     </a>
                 </div>
-                <iframe src="https://nafhan.site" title="Nafhan Portofolio" class="w-full h-screen my-10 rounded-lg overflow-hidden"></iframe>
+                <!-- <iframe src="https://nafhan.site" title="Nafhan Portofolio" class="w-full h-screen my-10 rounded-lg overflow-hidden"></iframe> -->
             </div>
         </main>
     </body>

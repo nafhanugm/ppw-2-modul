@@ -1,6 +1,7 @@
 @extends('buku.layout.layout')
 @php
     use Illuminate\Support\Facades\Session;
+    use Illuminate\Support\Facades\Auth;
 @endphp
 
 @section('content')
@@ -19,6 +20,9 @@
         </form>
     @endif
     <a href="{{ route('buku.create') }}" class="btn btn-primary float-end">Tambah Buku</a>
+    @if(Auth::user()->role == 'admin' || Auth::user()->role == 'internal_review')
+        <a href="{{ route('review.create') }}" class="btn mx-2 btn-primary float-end">Review Buku</a>
+    @endif
     <table class="table table-stripped">
         <thead>
             <tr>

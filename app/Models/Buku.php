@@ -10,23 +10,28 @@ class Buku extends Model
 {
     use HasFactory;
 
-    protected $table = 'books';
+    protected $table = "books";
 
     protected $fillable = [
-        'judul',
-        'penulis',
-        'harga',
-        'tgl_terbit',
-        'filename',
-        'filepath',
+        "judul",
+        "penulis",
+        "harga",
+        "tgl_terbit",
+        "filename",
+        "filepath",
     ];
 
     protected $casts = [
-        'tgl_terbit' => 'date',
+        "tgl_terbit" => "date",
     ];
 
     public function galeri(): HasMany
     {
         return $this->hasMany(Galeri::class);
+    }
+
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(Review::class);
     }
 }
