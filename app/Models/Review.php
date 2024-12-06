@@ -21,7 +21,7 @@ class Review extends Model
 
     public function book(): BelongsTo
     {
-        return $this->belongsTo(Buku::class);
+        return $this->belongsTo(Buku::class, "book_id");
     }
 
     public function reviewTags(): HasMany

@@ -1,63 +1,131 @@
 @extends('review.layout.layout')
 @php
-    use Illuminate\Support\Facades\Session;
-    use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
 @endphp
 
 @section('content')
-<body>
-    <div class="mx-10 mt-10">
-    <div>Tag Tersedia
-        <div class="flex w-full">
-            @foreach($tags as $tag)
-                <div id="tag_{{$tag->id}}" class="flex justify-center items-center m-1 font-medium py-3 px-4 cursor-pointer  bg-white rounded-full text-gray-700 border border-gray-300 ">
-                        <div class="text-lg font-normal leading-none max-w-full flex-initial">{{ $tag->tag_name}}</div>
-                </div>
-            @endforeach
+<div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+        <!-- Header Section -->
+        <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
+            <h2 class="text-xl font-semibold text-gray-800">
+                <i class="fas fa-tags mr-2 text-blue-500"></i>Review Tags
+            </h2>
+        </div>
+
+        <!-- Tags Filter Section -->
+        <div class="p-6 bg-white border-b border-gray-200">
+            <h3 class="text-sm font-medium text-gray-700 mb-4">
+                <i class="fas fa-filter mr-2"></i>Filter by Tags
+            </h3>
+            <div class="flex flex-wrap gap-2">
+                @foreach($tags as $tag)
+                    <div id="tag_{{$tag->id}}" class="group flex items-center px-4 py-2 rounded-full border transition-all duration-200 cursor-pointer hover:shadow-md">
+                        <i class="fas fa-tag mr-2 text-sm"></i>
+                        <span class="text-sm font-medium">{{ $tag->tag_name}}</span>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+
+        <!-- Table Section -->
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <i class="fas fa-hashtag mr-1"></i>No
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <i class="fas fa-user mr-1"></i>Reviewer
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <i class="fas fa-book mr-1"></i>Book Title
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <i class="fas fa-pen mr-1"></i>Author
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <i class="fas fa-tag mr-1"></i>Price
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <i class="fas fa-calendar mr-1"></i>Publication Date
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <i class="fas fa-comment mr-1"></i>Review
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <i class="fas fa-tags mr-1"></i>Tags
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    @foreach($reviews as $index => $review)
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                {{ $index+1 }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0 h-8 w-8">
+                                        <span class="inline-flex items-center justify-center h-8 w-8 rounded-full bg-blue-100">
+                                            <span class="text-sm font-medium text-blue-700">{{ substr($review->user->name, 0, 1) }}</span>
+                                        </span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <div class="text-sm font-medium text-gray-900">
+                                            {{ $review->user->name }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                {{ $review->book->judul }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                {{ $review->book->penulis }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                {{ "Rp. ".number_format($review->book->harga, 2, ',', '.') }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                {{ $review->book->tgl_terbit->format('d/m/Y') }}
+                            </td>
+                            <td class="px-6 py-4">
+                                <p class="text-sm text-gray-500 line-clamp-2">{{ $review->review }}</p>
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="flex flex-wrap gap-1">
+                                    @foreach($review->reviewTags as $tag)
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                            <i class="fas fa-tag mr-1 text-xs"></i>
+                                            {{ $tag->tag->tag_name }}
+                                        </span>
+                                    @endforeach
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Footer Section -->
+        <div class="px-6 py-4 bg-gray-50 border-t border-gray-200">
+            <div class="text-sm text-gray-600">
+                <i class="fas fa-list-ul mr-2"></i>
+                Total Reviews: {{ count($reviews) }}
+            </div>
         </div>
     </div>
-    <table class="table table-stripped">
-        <thead>
-            <tr>
-                <th>no</th>
-                <th>Pemberi Review</th>
-                <th>Judul Buku</th>
-                <th>Penulis</th>
-                <th>Harga</th>
-                <th>Tanggal Terbit</th>
-                <th>Review</th>
-                <th>Tag</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($reviews as $index => $review)
-                <tr>
-                    <td>{{ $index+1 }}</td>
-                    <td>{{ $review->user->name }}</td>
-                    <td>{{ $review->book->judul }}</td>
-                    <td>{{ $review->book->penulis }}</td>
-                    <td>{{ "Rp. ".number_format($review->book->harga, 2, ',', '.') }}</td>
-                    <td>{{ $review->book->tgl_terbit->format('d/m/Y') }}</td>
-                    <td>{{ $review->review }}</td>
-                    <td>
-                        @foreach($review->reviewTags as $tag)
-                            <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded ">{{ $tag->tag->tag_name }}</span>
-                        @endforeach
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
-    <div>
+</div>
 @endsection
 
 @push("js")
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Select all tag elements
     const tagElements = document.querySelectorAll('[id^="tag_"]');
-
-    // Get current URL and existing tag parameters
     const currentUrl = new URL(window.location.href);
     const existingTagsParam = currentUrl.searchParams.get('tag');
     const existingTags = existingTagsParam ? existingTagsParam.split(',') : [];
@@ -66,50 +134,35 @@ document.addEventListener('DOMContentLoaded', function() {
     existingTags.forEach(tagId => {
         const tagElement = document.getElementById(`tag_${tagId}`);
         if (tagElement) {
-            tagElement.classList.remove('bg-white', 'text-blue-700', 'border-blue-300');
-            tagElement.classList.add('bg-blue-700', 'text-white', 'border-blue-700');
+            tagElement.classList.remove('border-gray-200', 'text-gray-700');
+            tagElement.classList.add('bg-blue-500', 'text-white', 'border-blue-500');
         }
     });
 
     tagElements.forEach(tag => {
         tag.addEventListener('click', function() {
-            // Get the tag ID
             const tagId = this.id.replace('tag_', '');
-
-            // Create a new URL object to modify parameters
             const newUrl = new URL(window.location.href);
-
-            // Get current tags from URL
             const currentTagsParam = newUrl.searchParams.get('tag');
             const currentTags = currentTagsParam ? currentTagsParam.split(',') : [];
-
-            // Check if tag is already selected
             const tagIndex = currentTags.indexOf(tagId);
 
             if (tagIndex > -1) {
-                // Remove the tag if it's already selected
                 currentTags.splice(tagIndex, 1);
+                this.classList.remove('bg-blue-500', 'text-white', 'border-blue-500');
+                this.classList.add('border-gray-200', 'text-gray-700');
             } else {
-                // Add the tag if it's not selected
                 currentTags.push(tagId);
+                this.classList.remove('border-gray-200', 'text-gray-700');
+                this.classList.add('bg-blue-500', 'text-white', 'border-blue-500');
             }
 
-            // Update URL parameters
             if (currentTags.length > 0) {
                 newUrl.searchParams.set('tag', currentTags.join(','));
             } else {
                 newUrl.searchParams.delete('tag');
             }
 
-            // Toggle visual state
-            this.classList.toggle('bg-white');
-            this.classList.toggle('text-blue-700');
-            this.classList.toggle('border-blue-300');
-            this.classList.toggle('bg-blue-700');
-            this.classList.toggle('text-white');
-            this.classList.toggle('border-blue-700');
-
-            // Navigate to the new URL
             window.location.href = newUrl.toString();
         });
     });

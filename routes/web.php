@@ -6,6 +6,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SendEmailController;
 use App\Http\Controllers\UserController;
+use App\Models\Buku;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,9 +21,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get("/", function () {
-    return view("welcome");
-});
+    $books = Buku::orderBy("id", "asc")->simplePaginate(5);
 
+    return view("welcome", compact("books"));
+});
+Route::get("/detail-buku/{id}", [BukuController::class, "show"])->name(
+    "book.detail"
+);
 Route::get("/dashboard", function () {
     return view("dashboard");
 })
@@ -41,6 +46,7 @@ Route::middleware(["auth"])->group(function () {
     Route::middleware(["role.review"])->group(function () {
         Route::resource("review", ReviewController::class);
     });
+
     Route::resource("buku", BukuController::class);
     Route::get("/about", [PortfolioController::class, "about"])->name("about");
     Route::get("/project", [PortfolioController::class, "project"])->name(
